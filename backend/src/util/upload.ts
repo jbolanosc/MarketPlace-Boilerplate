@@ -1,4 +1,3 @@
-import express from "express";
 import multer from "multer";
 import path from "path";
 import uuid from "uuid";
@@ -10,12 +9,4 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
-
-const uploadRouter = express.Router();
-
-uploadRouter.post("/", upload.single("image"), (req, res) => {
-  res.send(`/${req.file.path}`);
-});
-
-export default uploadRouter;
+export default multer({ storage });

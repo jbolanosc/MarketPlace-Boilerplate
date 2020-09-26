@@ -63,7 +63,7 @@ export async function createProduct(
       old_price: req.body.old_price,
       description: req.body.description,
       seller: req.body.seller,
-      images: req.body.images,
+      images: req.files ? Array.from(req.files.toString()) : [],
       brand: req.body.brand,
       countInStock: req.body.countInStock,
     });
@@ -139,7 +139,7 @@ export async function updateProduct(
     product.old_price = req.body.old_price;
     product.description = req.body.description;
     product.seller = req.body.seller;
-    product.images = req.body.images;
+    product.images = req.files ? Array.from(req.files.toString()) : [];
     product.brand = req.body.brand;
     product.countInStock = req.body.countInStock;
 

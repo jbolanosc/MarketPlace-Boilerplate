@@ -7,16 +7,19 @@ import {
   deleteProduct,
   addProductReview,
 } from "../../controllers/seller/product.controller";
-import { isAuth, isSeller } from "../../util/verify";
+import { isAuth, isSeller, upload } from "../../util";
 
 const productRouter = Router();
 
-productRouter.route("/").get(getProducts).post(isAuth, isSeller, createProduct);
+productRouter
+  .route("/")
+  .get(getProducts)
+  .post(isAuth, isSeller, upload.array("images"), createProduct);
 
 productRouter
   .route("/:id")
   .get(getProduct)
-  .put(isAuth, isSeller, updateProduct)
+  .put(isAuth, isSeller, upload.array("images"), updateProduct)
   .delete(isAuth, isSeller, deleteProduct);
 
 productRouter.route("/:id/reviews").post(isAuth, addProductReview);

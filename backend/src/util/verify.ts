@@ -8,7 +8,22 @@ export const getToken = (user: any) => {
       _id: user.id,
       name: user.name,
       email: user.email,
-      isSeller: user.isSeller,
+      isSeller: false,
+    },
+    config.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+};
+
+export const getSellerToken = (user: any) => {
+  return jwt.sign(
+    {
+      _id: user.id,
+      name: user.name,
+      email: user.email,
+      isSeller: true,
     },
     config.JWT_SECRET,
     {

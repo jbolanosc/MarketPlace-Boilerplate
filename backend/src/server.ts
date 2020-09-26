@@ -11,8 +11,6 @@ dotenv.config();
 const app: Application = express();
 const port: unknown = process.env.PORT || 5000;
 
-console.log(process.env.MONGODB_URI);
-
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
@@ -21,11 +19,11 @@ const db: string = process.env.MONGODB_URI || "";
 
 connect(db);
 
-app.use("/api", router);
-
-app.get("/", (res: Response) => {
-  res.send("hello");
+app.use("/", (req: express.Request, res: Response) => {
+  return res.send("Welcome, What are you looking for?.");
 });
+
+app.use("/api", router);
 
 app.listen(port, () => {
   console.log(`Server running on ${port}`);

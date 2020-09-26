@@ -1,5 +1,5 @@
 import { Seller } from "../../models";
-import hashPassword from "../../util/hashPassword";
+import { hashPassword } from "../../util";
 import { Response, Request } from "express";
 
 export const getSellers = async (res: Response) => {
@@ -64,7 +64,7 @@ export const createSeller = async (req: Request, res: Response) => {
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       isApproved: req.body.isApproved,
-      logo: req.body.logo ? req.body.logo : null,
+      logo: req.file.path ? req.file.path : null,
     });
 
     await seller.save();
