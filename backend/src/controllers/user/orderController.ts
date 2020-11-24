@@ -21,7 +21,7 @@ export async function getOrder(req: Request, res: Response) {
 export async function createOrder(req: Request, res: Response) {
   try {
     const newOrder = new Order({
-      user: req.body.user,
+      user: req.user,
       seller: req.body.seller,
       orderItems: req.body.orderItems,
       shippingAddress: req.body.shippingAddress,

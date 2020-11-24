@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { seedDB } from "./seed";
 
 export default (db: string) => {
   const connect = () => {
@@ -14,6 +15,8 @@ export default (db: string) => {
   };
 
   connect();
+
+  //seedDB();
 
   mongoose.connection.on("disconnected", connect);
 };

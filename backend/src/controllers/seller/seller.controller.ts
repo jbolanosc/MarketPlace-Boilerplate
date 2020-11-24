@@ -2,7 +2,7 @@ import { Seller } from "../../models";
 import { hashPassword } from "../../util";
 import { Response, Request } from "express";
 
-export const getSellers = async (res: Response) => {
+export const getSellers = async (req: Request, res: Response) => {
   try {
     const sellers = await Seller.find();
     if (!sellers) return res.json({ msg: "No sellers found" }).status(400);
@@ -12,9 +12,9 @@ export const getSellers = async (res: Response) => {
   }
 };
 
-export const getTopSellers = async (res: Response) => {
+export const getTopSellers = async (req: Request, res: Response) => {
   try {
-    const topSellers = Seller.find().sort({ "seller.rating": -1 }).limit(10);
+    const topSellers = await Seller.find({}).sort({ rating: -1 }).limit(3);
     return res.json(topSellers);
   } catch (err) {
     return res.json({ error: err }).status(500);

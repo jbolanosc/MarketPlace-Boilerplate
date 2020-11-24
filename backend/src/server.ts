@@ -19,10 +19,6 @@ const db: string = process.env.MONGODB_URI || "";
 
 connect(db);
 
-app.use("/", (req: express.Request, res: Response) => {
-  return res.send("Welcome, What are you looking for?.");
-});
-
 app.use("/api", router);
 
 app.listen(port, () => {

@@ -7,7 +7,6 @@ interface ReviewInterface {
 }
 
 export interface ProductInterface extends Document {
-  _id: string;
   name: string;
   category: string;
   subcategory: string;

@@ -1,16 +1,20 @@
-import { Router } from "express";
+import express, { Request, Response } from "express";
 import productRouter from "./seller/productRoutes";
 import sellerRouter from "./seller/sellerRoutes";
 import orderRouter from "./user/order.route";
 import authRouter from "./auth.route";
 import deliveryRouter from "./delivery/delivery.route";
 
-const router = Router();
+const router = express.Router();
 
-router.use("/sellers", sellerRouter);
-router.use("/products", productRouter);
-router.use("/orders", orderRouter);
-router.use("/auth", authRouter);
-router.use("/delivery", deliveryRouter);
+router
+  .get("/ping", (req: Request, res: Response) => {
+    return res.json("pong");
+  })
+  .use("/sellers", sellerRouter)
+  .use("/products", productRouter)
+  .use("/orders", orderRouter)
+  .use("/auth", authRouter)
+  .use("/delivery", deliveryRouter);
 
 export default router;

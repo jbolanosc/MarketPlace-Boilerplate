@@ -1,12 +1,12 @@
 import multer from "multer";
-import path from "path";
-import uuid from "uuid";
 
-const storage = multer.diskStorage({
-  destination: "uploads",
-  filename: (req, file, cb) => {
-    cb(null, uuid.v4() + path.extname(file.originalname));
+const storage = multer.memoryStorage();
+
+const Multer = multer({
+  storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024, // Maximum file size is 10MB
   },
 });
 
-export default multer({ storage });
+export default Multer;

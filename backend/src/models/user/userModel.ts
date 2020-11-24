@@ -1,7 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface UserInterface extends Document {
-  _id: string;
   name: string;
   password: string;
   email: string;
@@ -20,7 +19,7 @@ let UserSchema: Schema = new Schema({
   address: { type: String, required: true },
   profilePicture: { type: String, required: true },
   temp_verification_code: { type: String, required: true },
-  favList: { type: String, required: true },
+  favList: { type: [String], required: true },
 });
 
 const User = mongoose.model<UserInterface>("User", UserSchema);

@@ -63,6 +63,7 @@ export async function createProduct(
       old_price: req.body.old_price,
       description: req.body.description,
       seller: req.body.seller,
+      rating: req.body.rating,
       images: req.files ? Array.from(req.files.toString()) : [],
       brand: req.body.brand,
       countInStock: req.body.countInStock,
@@ -75,20 +76,7 @@ export async function createProduct(
     return res.json({ error: err }).status(500);
   }
 }
-/* 
-export async function getSellerProducts(
-  req: Request,
-  res: Response
-): Promise<Response | void> {
-  try {
-    const products = await Product.find({ seller: req.body.seller._id });
 
-    return res.json(products);
-  } catch (err) {
-    return res.json({ error: err }).status(500);
-  }
-}
- */
 export async function addProductReview(
   req: Request,
   res: Response

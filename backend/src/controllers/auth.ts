@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { User, Seller } from "../models";
-import { compareSync, getToken } from "../util";
+import { compareSync, getToken, getSellerToken } from "../util";
 
 export async function userLogin(req: Request, res: Response) {
   const user = await User.findOne({
@@ -11,9 +11,6 @@ export async function userLogin(req: Request, res: Response) {
     return res.json({ msg: "Incorrect Username or password" });
 
   return res.json({
-    _id: user._id,
-    name: user.name,
-    email: user.email,
     isSeller: false,
     token: getToken(user),
   });
@@ -28,11 +25,8 @@ export async function sellerLogin(req: Request, res: Response) {
     return res.json({ msg: "Incorrect Username or password" });
 
   return res.json({
-    _id: seller._id,
-    name: seller.name,
-    email: seller.email,
-    isSeller: false,
-    token: getToken(seller),
+    isSeller: true,
+    token: getSellerToken(seller),
   });
 }
 

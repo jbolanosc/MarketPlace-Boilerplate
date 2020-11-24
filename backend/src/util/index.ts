@@ -1,6 +1,6 @@
 import compareSync from "./compareSync";
 import hashPassword from "./hashPassword";
-import upload from "./upload";
+import Multer from "./upload";
 import { getToken, isAuth, isSeller, getSellerToken } from "./verify";
 
 export {
@@ -8,7 +8,7 @@ export {
   getSellerToken,
   isSeller,
   isAuth,
-  upload,
+  Multer,
   hashPassword,
   compareSync,
 };

@@ -15,14 +15,14 @@ const sellerRouter = Router();
 sellerRouter
   .route("/")
   .get(getSellers)
-  .post(isAuth, isSeller, upload.single("image"), createSeller);
+  .post(isAuth, upload.single("image"), createSeller);
 
 sellerRouter.route("/:id").get(getSellerInfo);
 
-sellerRouter.route("/top-sellers").get(getTopSellers);
+sellerRouter.route("/top/sellers").get(getTopSellers);
 
 sellerRouter
-  .route("/profile")
+  .route("/profile/:id")
   .get(getSellerInfo)
   .put(isAuth, isSeller, upload.single("image"), updateProfile)
   .delete(isAuth, isSeller, disableSeller);
