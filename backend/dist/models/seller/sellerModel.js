@@ -20,13 +20,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const reviewSchema = new mongoose_1.Schema({
+    name: { type: String, required: true },
+    rating: { type: String, default: 0 },
+    comment: { type: String, required: true },
+}, { timestamps: true });
 const sellerSchema = new mongoose_1.Schema({
     name: { type: String, required: "Please provide an email" },
     companyName: { type: String },
     password: { type: String, required: "Please provide an email" },
     email: { type: String, required: "Please provide an email" },
     phoneNumber: { type: String, required: "Please provide a phone number" },
+    rating: { type: Number, required: true },
     isApproved: { type: Boolean, default: false },
+    reviews: [reviewSchema],
+    logo: { type: String },
 }, { timestamps: true });
 const Seller = mongoose_1.default.model("Seller", sellerSchema);
 exports.default = Seller;

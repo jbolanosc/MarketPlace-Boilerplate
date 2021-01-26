@@ -38,6 +38,7 @@ export async function createOrder(req: Request, res: Response) {
   }
 }
 
+//TODO VALIDATE ORDER IS ON SHOP AND NOT SHIPPED TO UPDATE OR DELETE
 export async function updateOrder(req: Request, res: Response) {
   try {
     const { id } = req.params;

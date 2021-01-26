@@ -50,11 +50,16 @@ export async function getProducts(
   }
 }
 
-export async function createProduct(
-  req: Request,
-  res: Response
-): Promise<Response | void> {
+export async function createProduct(req, res): Promise<Response | void> {
   try {
+    const files: string[] = [];
+
+    if (req.files.length > 0) {
+      req.files.map((file) => {
+        files.push(file.cloudStoragePublicUrl);
+      });
+    }
+
     const product = new Product({
       name: req.body.name,
       category: req.body.category,
@@ -63,8 +68,8 @@ export async function createProduct(
       old_price: req.body.old_price,
       description: req.body.description,
       seller: req.body.seller,
-      rating: req.body.rating,
-      images: req.files ? Array.from(req.files.toString()) : [],
+      rating: parseInt(req.body.rating),
+      images: files,
       brand: req.body.brand,
       countInStock: req.body.countInStock,
     });
@@ -87,7 +92,8 @@ export async function addProductReview(
     if (!product) return res.json({ msg: "No product Found" }).status(400);
 
     const review = {
-      name: req.body.name,
+      user: req.user._id,
+      name: req.user.name,
       rating: Number(req.body.rating),
       comment: req.body.comment,
     };

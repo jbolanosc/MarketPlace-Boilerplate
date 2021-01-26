@@ -30,8 +30,12 @@ const orderSchema = new mongoose_1.Schema({
     itemsPrice: { type: Number, required: true },
     tax: { type: Number, required: true },
     isPaid: { type: Boolean, default: false },
-    paidAt: { type: Date, default: Date.now() },
-    isShipped: { type: Boolean, default: false },
+    paidAt: { type: Date, default: null },
+    status: {
+        type: String,
+        enum: ["ON SHOP", "SHIPPED", "ABOUT TO DELIVERY"],
+        default: "ON SHOP",
+    },
 }, {
     timestamps: true,
 });

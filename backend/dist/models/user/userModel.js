@@ -26,9 +26,9 @@ let UserSchema = new mongoose_1.Schema({
     email: { type: String, required: true },
     mobile: { type: String, required: true },
     address: { type: String, required: true },
-    profilePicture: { type: String, required: true },
-    temp_verification_code: { type: String, required: true },
-    favList: { type: String, required: true },
+    profilePicture: { type: String, default: "" },
+    temp_verification_code: { type: String, default: false },
+    favList: { type: [String], default: [] },
 });
 const User = mongoose_1.default.model("User", UserSchema);
 exports.default = User;

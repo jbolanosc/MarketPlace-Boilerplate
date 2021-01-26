@@ -10,9 +10,13 @@ export async function userLogin(req: Request, res: Response) {
   if (!user || !compareSync(req.body.password, user.password))
     return res.json({ msg: "Incorrect Username or password" });
 
+  const token = getToken(user);
+
+  res.cookie("token", token, { httpOnly: true });
+
   return res.json({
     isSeller: false,
-    token: getToken(user),
+    token: token,
   });
 }
 
@@ -28,6 +32,10 @@ export async function sellerLogin(req: Request, res: Response) {
     isSeller: true,
     token: getSellerToken(seller),
   });
+}
+
+export async function getCsrf(req: Request, res: Response) {
+  return res.json({ csrfToken: req.csrfToken() });
 }
 
 export async function logout(req: Request, res: Response) {}

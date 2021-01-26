@@ -7,21 +7,27 @@ import {
   deleteProduct,
   addProductReview,
 } from "../../controllers/seller/product.controller";
-import { isAuth, isSeller, upload } from "../../util";
+import { isAuth, isSeller, Multer, sendUploadToGCS } from "../../util";
 
 const productRouter = Router();
 
 productRouter
   .route("/")
   .get(getProducts)
-  .post(isAuth, isSeller, upload.array("images"), createProduct);
+  .post(
+    isAuth,
+    isSeller,
+    Multer.array("images"),
+    sendUploadToGCS,
+    createProduct
+  );
 
 productRouter
   .route("/:id")
   .get(getProduct)
-  .put(isAuth, isSeller, upload.array("images"), updateProduct)
+  .put(isAuth, isSeller, Multer.array("images"), sendUploadToGCS, updateProduct)
   .delete(isAuth, isSeller, deleteProduct);
 
-productRouter.route("/:id/reviews").post(isAuth, addProductReview);
+productRouter.route("/:id/reviews").put(isAuth, addProductReview);
 
 export default productRouter;

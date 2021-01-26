@@ -10,7 +10,7 @@ export interface OrderInterface extends Document {
   shippingPrice: number;
   isPaid: boolean;
   paidAt: Date;
-  isShipped: boolean;
+  status: string;
 }
 
 const orderSchema: Schema = new Schema(
@@ -24,8 +24,12 @@ const orderSchema: Schema = new Schema(
     itemsPrice: { type: Number, required: true },
     tax: { type: Number, required: true },
     isPaid: { type: Boolean, default: false },
-    paidAt: { type: Date, default: Date.now() },
-    isShipped: { type: Boolean, default: false },
+    paidAt: { type: Date, default: null },
+    status: {
+      type: String,
+      enum: ["ON SHOP", "SHIPPED", "ABOUT TO DELIVERY"],
+      default: "ON SHOP",
+    },
   },
   {
     timestamps: true,

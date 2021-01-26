@@ -7,11 +7,11 @@ import {
   updateOrder,
   deleteOrder,
 } from "../../controllers/user/orderController";
-import { isAuth, isSeller, upload } from "../../util";
+import { isAuth, isSeller } from "../../util";
 
 const orderRouter = Router();
 
-orderRouter.route("/").post(isAuth, upload.array("images"), createOrder);
+orderRouter.route("/").post(isAuth, createOrder);
 
 orderRouter
   .route("/:id")

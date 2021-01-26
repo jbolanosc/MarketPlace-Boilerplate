@@ -1,7 +1,14 @@
-import compareSync from "./compareSync";
-import hashPassword from "./hashPassword";
-import Multer from "./upload";
-import { getToken, isAuth, isSeller, getSellerToken } from "./verify";
+import compareSync from "./hash/compareSync";
+import hashPassword from "./hash/hashPassword";
+import Multer from "./upload/upload";
+import sendUploadToGCS from "./upload/storage";
+import {
+  getToken,
+  isAuth,
+  isSeller,
+  getSellerToken,
+  isUser,
+} from "./auth/verify";
 
 export {
   getToken,
@@ -11,4 +18,6 @@ export {
   Multer,
   hashPassword,
   compareSync,
+  sendUploadToGCS,
+  isUser,
 };

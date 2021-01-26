@@ -1,5 +1,4 @@
 import { Storage } from "@google-cloud/storage";
-//const { Storage } = require('@google-cloud/storage');
 
 const CLOUD_BUCKET = process.env.CLOUD_BUCKET;
 const storage = new Storage({
@@ -9,7 +8,7 @@ const storage = new Storage({
 const bucket = storage.bucket(CLOUD_BUCKET);
 
 const getPublicUrl = (filename) => {
-  return `https://storage.googleapis.com/${CLOUD_BUCKET}/${filename}`;
+  return `https://storage.googleapis.com/${CLOUD_BUCKET}/myfolder/${filename}`;
 };
 
 const sendUploadToGCS = (req, res, next) => {
@@ -19,8 +18,7 @@ const sendUploadToGCS = (req, res, next) => {
 
   let promises = [];
   req.files.forEach((image, index) => {
-    const gcsname =
-      req.headers.decode.username + Date.now() + image.originalname;
+    const gcsname = Date.now() + image.originalname;
     const file = bucket.file(gcsname);
 
     const promise = new Promise((resolve, reject) => {

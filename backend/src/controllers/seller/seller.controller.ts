@@ -45,9 +45,10 @@ export const getSellerInfo = async (req: Request, res: Response) => {
   }
 };
 
-export const updateProfile = async (req: Request, res: Response) => {
+export const updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
+    req.body.logo = req.file.cloudStoragePublicUrl || "";
     await Seller.findByIdAndUpdate(id, { $set: req.body }, { new: true });
     return res.json({ status: "Profile edited" });
   } catch (err) {
@@ -55,7 +56,7 @@ export const updateProfile = async (req: Request, res: Response) => {
   }
 };
 
-export const createSeller = async (req: Request, res: Response) => {
+export const createSeller = async (req, res) => {
   try {
     const seller = new Seller({
       name: req.body.name,
@@ -64,7 +65,9 @@ export const createSeller = async (req: Request, res: Response) => {
       email: req.body.email,
       phoneNumber: req.body.phoneNumber,
       isApproved: req.body.isApproved,
-      logo: req.file.path ? req.file.path : null,
+      logo: req.file.cloudStoragePublicUrl
+        ? req.file.cloudStoragePublicUrl
+        : null,
     });
 
     await seller.save();

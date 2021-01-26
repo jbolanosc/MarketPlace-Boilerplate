@@ -7,7 +7,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 exports.default = (db) => {
     const connect = () => {
         mongoose_1.default
-            .connect(db, { useNewUrlParser: true })
+            .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
             .then(() => {
             return console.log("db connected");
         })
@@ -17,6 +17,7 @@ exports.default = (db) => {
         });
     };
     connect();
+    //seedDB();
     mongoose_1.default.connection.on("disconnected", connect);
 };
 //# sourceMappingURL=connect.js.map

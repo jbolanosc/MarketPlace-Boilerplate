@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 interface ReviewInterface {
+  user: string;
   name: string;
   rating: number;
   comment: string;
