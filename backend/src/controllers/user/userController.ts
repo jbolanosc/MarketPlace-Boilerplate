@@ -7,11 +7,11 @@ export const getUserProfile = async (req: Request, res: Response) => {
     const { id } = req.params;
     const profile = await User.findById(id);
 
-    if (!profile) return res.json({ msg: "Profile not found" });
+    if (!profile) return res.status(400).send({ msg: "Profile not found" });
 
-    return res.json(profile);
-  } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(200).send(profile);
+  } catch (err: any) {
+    return res.status(500).send({ error: err });
   }
 };
 
@@ -19,20 +19,25 @@ export const getUserInfo = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const user = await User.findById(id);
-    if (!user) return res.json({ msg: "no user found." });
-    return res.json(user);
+    if (!user) return res.status(400).send({ msg: "no user found." });
+    return res.status(200).send(user);
   } catch (err) {
-    return res.json({ msg: err }).status(500);
+    return res.status(500).send({ msg: err });
   }
 };
 
 export const updateProfile = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await User.findByIdAndUpdate(id, { $set: req.body }, { new: true });
-    return res.json({ status: "Profile edited" });
+    const user = await User.findByIdAndUpdate(
+      id,
+      { $set: req.body },
+      { new: true }
+    );
+    if (!user) return res.status(400).send({ msg: "NO USER FOUND" });
+    return res.status(200).send({ msg: "Profile edited" });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 };
 
@@ -50,18 +55,19 @@ export const createUser = async (req: Request, res: Response) => {
 
     await user.save();
 
-    return res.json({ msg: "User account created" });
+    return res.status(200).send({ msg: "User account created" });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 };
 
 export const disableUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    await User.findByIdAndUpdate(id, { isApproved: false });
-    return res.json({ status: "User disabled" });
+    const user = await User.findByIdAndUpdate(id, { isApproved: false });
+    if (!user) return res.status(400).send({ msg: "NO USER FOUND." });
+    return res.status(200).send({ status: "User disabled" });
   } catch (err) {
-    return res.json({ msg: err }).status(500);
+    return res.status(500).send({ msg: err });
   }
 };

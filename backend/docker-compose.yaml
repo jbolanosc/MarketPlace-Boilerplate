@@ -1,0 +1,28 @@
+version: "3"
+services:
+  2shop-DB:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_DATABASE: marketplace
+    ports:
+      - "7001:27017"
+    networks:
+      2shop-backend-network:
+
+  backend:
+    build: "./"
+    restart: "always"
+    environment:
+      JWT_SECRET: "sadkfiek"
+      PORT: 3000
+      MONGODB_URI: "mongodb://2shop-DB:27017/marketplace"
+    ports:
+      - "5000:3000"
+    depends_on:
+      - 2shop-DB
+    networks:
+      2shop-backend-network:
+
+networks:
+  2shop-backend-network:

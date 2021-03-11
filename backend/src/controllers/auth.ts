@@ -3,39 +3,45 @@ import { User, Seller } from "../models";
 import { compareSync, getToken, getSellerToken } from "../util";
 
 export async function userLogin(req: Request, res: Response) {
-  const user = await User.findOne({
-    email: req.body.email,
-  });
+  try {
+    const user = await User.findOne({
+      email: req.body.email,
+    });
 
-  if (!user || !compareSync(req.body.password, user.password))
-    return res.json({ msg: "Incorrect Username or password" });
+    if (!user || !compareSync(req.body.password, user.password))
+      return res.json({ msg: "Incorrect Username or password" });
 
-  const token = getToken(user);
+    const token = getToken(user);
 
-  res.cookie("token", token, { httpOnly: true });
+    res.cookie("token", token, { httpOnly: true });
 
-  return res.json({
-    isSeller: false,
-    token: token,
-  });
+    return res.status(200).send({
+      isSeller: false,
+      token: token,
+    });
+  } catch (err: any) {
+    return res.status(500).send({ error: err.toString() });
+  }
 }
 
 export async function sellerLogin(req: Request, res: Response) {
-  const seller = await Seller.findOne({
-    email: req.body.email,
-  });
+  try {
+    const seller = await Seller.findOne({
+      email: req.body.email,
+    });
 
-  if (!seller || !compareSync(req.body.password, seller.password))
-    return res.json({ msg: "Incorrect Username or password" });
+    if (!seller || !compareSync(req.body.password, seller.password))
+      return res.status(400).send({ msg: "Incorrect Username or password" });
 
-  return res.json({
-    isSeller: true,
-    token: getSellerToken(seller),
-  });
+    return res.status(200).send({
+      isSeller: true,
+      token: getSellerToken(seller),
+    });
+  } catch (err: any) {
+    return res.status(500).send({ error: err });
+  }
 }
 
 export async function getCsrf(req: Request, res: Response) {
-  return res.json({ csrfToken: req.csrfToken() });
+  return res.status(200).send({ csrfToken: req.csrfToken() });
 }
-
-export async function logout(req: Request, res: Response) {}

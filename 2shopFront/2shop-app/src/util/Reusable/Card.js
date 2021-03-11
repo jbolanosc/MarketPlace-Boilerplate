@@ -1,6 +1,6 @@
 import React from "react";
 
-const Card = () => {
+const Card = (props) => {
   return (
     <div className="max-w-6xl mx-auto">
       <div className="flex items-center justify-center min-h-screen">
@@ -10,7 +10,7 @@ const Card = () => {
               className="bg-cover bg-center h-56 p-4"
               style={{
                 backgroundImage:
-                  "url(https://images.unsplash.com/photo-1475855581690-80accde3ae2b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80)",
+                  `url(${props.logo})`,
               }}
             >
               <div className="flex justify-end">

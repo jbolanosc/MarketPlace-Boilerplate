@@ -10,11 +10,11 @@ export async function getOrder(req: Request, res: Response) {
       .populate("orderItems")
       .exec();
 
-    if (!order) return res.json({ msg: "order not found." }).status(400);
+    if (!order) return res.status(400).send({ msg: "order not found." });
 
-    return res.json(order);
+    return res.status(200).send(order);
   } catch (err) {
-    return res.json({ err: err });
+    return res.status(500).send({ err: err });
   }
 }
 
@@ -32,21 +32,30 @@ export async function createOrder(req: Request, res: Response) {
 
     await newOrder.save();
 
-    return res.json({ msg: "Order Created" });
+    return res.status(200).send({ msg: "Order Created" });
   } catch (err) {
-    return res.json({ err: err });
+    return res.status(500).send({ err: err });
   }
 }
 
-//TODO VALIDATE ORDER IS ON SHOP AND NOT SHIPPED TO UPDATE OR DELETE
 export async function updateOrder(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    await Order.findByIdAndUpdate(id, { $set: req.body }, { new: true });
+    const order = await Order.findByIdAndUpdate(
+      id,
+      { $set: req.body },
+      { new: true }
+    );
+    if (checkOrderStatus(order))
+      return res.status(400).send({
+        msg:
+          "The order cannot be modified or deleted because it is " +
+          order.status,
+      });
 
-    return res.json({ msg: "Order Updated" });
+    return res.status(201).send({ msg: "Order Updated" });
   } catch (err) {
-    return res.json({ err: err });
+    return res.status(500).send({ err: err });
   }
 }
 
@@ -54,11 +63,17 @@ export async function deleteOrder(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
-    await Order.findByIdAndDelete(id);
+    const order = await Order.findByIdAndDelete(id);
+    if (checkOrderStatus(order))
+      return res.status(400).send({
+        msg:
+          "The order cannot be modified or deleted because it is " +
+          order.status,
+      });
 
-    return res.json({ msg: "order deleted." });
+    return res.status(200).send({ msg: "order deleted." });
   } catch (err) {
-    return res.json({ err: err });
+    return res.status(500).send({ err: err });
   }
 }
 
@@ -67,11 +82,11 @@ export async function getUserOrders(req: Request, res: Response) {
     const { user } = req.body;
     const orders = await Order.find({ user: user });
 
-    if (!orders) res.json({ msg: "No orders found" });
+    if (!orders) res.status(400).send({ msg: "No orders found" });
 
-    return res.json(orders);
+    return res.status(200).send(orders);
   } catch (err) {
-    return res.json({ err: err });
+    return res.status(500).send({ err: err });
   }
 }
 
@@ -80,10 +95,16 @@ export async function getSellerOrders(req: Request, res: Response) {
     const { seller } = req.body;
     const orders = await Order.find({ seller: seller });
 
-    if (!orders) res.json({ msg: "No orders found" });
+    if (!orders) res.status(400).send({ msg: "No orders found" });
 
-    return res.json(orders);
+    return res.status(200).send(orders);
   } catch (err) {
-    return res.json({ err: err });
+    return res.status(500).send({ err: err });
   }
+}
+
+function checkOrderStatus(order) {
+  if (order.status === "SHIPPED" || order.status === "ABOUT TO DELIVER")
+    return false;
+  return true;
 }

@@ -1,4 +1,4 @@
-import express, { Application, Response } from "express";
+import express, { Application } from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
@@ -9,7 +9,7 @@ import connect from "./db/connect";
 import router from "./routes";
 
 const app: Application = express();
-const port: unknown = process.env.PORT || 5000;
+const port: string = process.env.PORT || "5000";
 
 const csrfProtection = csrf({
   cookie: true,

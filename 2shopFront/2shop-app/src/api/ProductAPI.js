@@ -2,13 +2,8 @@ import axios from "axios";
 
 const productsSufix = "/products";
 
-export const getProducts = async (query) => {
-  const { seller, category, searchKeyWord } = query;
-  const result = await axios.get(`${productsSufix}`, {
-    category: category || "",
-    seller: seller || "",
-    searchKeyWord: searchKeyWord || "",
-  });
+export const getProducts = async (keyword, seller, pageNumber) => {
+  const result = await axios.get(`${productsSufix}`);
   return result;
 };
 

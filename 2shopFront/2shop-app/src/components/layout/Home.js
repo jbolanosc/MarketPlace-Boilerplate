@@ -1,32 +1,24 @@
 import React from "react";
+import TopProducts from "../Product/TopProducts";
+import TopStores from "../Store/TopStores";
 
 const Home = () => {
   return (
     <>
-      <div className="h-screen w-full sliderAx">
-        <div id="slider-1" className="w-full h-full">
-          <div
-            className="bg-cover bg-center  h-auto text-white py-24 px-10 object-fill"
-            style={{
-              backgroundImage:
-                "url(https://images.unsplash.com/photo-1544427920-c49ccfb85579?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1422&q=80)",
-            }}
-          >
-            <div className="md:w-1/2">
-              <p className="font-bold text-sm uppercase">Services</p>
-              <p className="text-3xl font-bold">Hello world</p>
-              <p className="text-2xl mb-10 leading-none">
-                Carousel with TailwindCSS and jQuery
-              </p>
-              <a
-                href="#"
-                className="bg-purple-800 py-4 px-8 text-white font-bold uppercase text-xs rounded hover:bg-gray-200 hover:text-gray-800"
-              >
-                Contact us
-              </a>
-            </div>
-          </div>
+      <div className="min-h-screen py-4 bg-blue-600 w-full flex flex-col items-center justify-center">
+        <h2 className="text-6xl text-white covered">Welcome to 2hop</h2>
+        <div className="flex flex-col items-center justify-center w-full md:px-4">
+          <h4 className="text-4xl covered text-white py-2 font-bold">
+            Popular Products
+          </h4>
+          <TopProducts />
         </div>
+      </div>
+      <div className="min-h-screen py-4 bg-white w-full flex flex-col items-center justify-center">
+        <h4 className="text-4xl covered text-blue-600 py-2 font-bold">
+          Popular Stores
+        </h4>
+        <TopStores />
       </div>
     </>
   );

@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap");
 
 .btn {
   @apply py-2 px-4 rounded;
@@ -16,4 +17,12 @@
 
 .card {
   @apply rounded overflow-hidden shadow-lg;
+}
+
+.covered {
+  font-family: "Covered By Your Grace", cursive;
+}
+
+#menu-toggle:checked + #menu {
+  display: block;
 }

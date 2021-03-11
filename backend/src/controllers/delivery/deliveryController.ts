@@ -6,11 +6,11 @@ export async function getDelivery(req: Request, res: Response) {
     const { id } = req.params;
     const delivery = await Delivery.findById(id);
 
-    if (!delivery) return res.json({ msg: "No delivery found" });
+    if (!delivery) return res.status(400).send({ msg: "No delivery found" });
 
-    return res.json(delivery);
+    return res.status(200).send(delivery);
   } catch (err) {
-    return res.json({ error: err });
+    return res.status(500).send({ error: err });
   }
 }
 
@@ -28,9 +28,9 @@ export async function createDelivery(req: Request, res: Response) {
 
     await delivery.save();
 
-    return res.json({ msg: "Delivery created" });
+    return res.status(200).send({ msg: "Delivery created" });
   } catch (err) {
-    return res.json({ error: err });
+    return res.status(500).send({ error: err });
   }
 }
 
@@ -38,9 +38,9 @@ export async function updateDelivery(req: Request, res: Response) {
   try {
     const { id } = req.params;
     await Delivery.findByIdAndUpdate(id, { $set: req.body }, { new: true });
-    return res.json({ status: "Delivery edited" });
+    return res.status(200).send({ status: "Delivery edited" });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 }
 
@@ -48,10 +48,10 @@ export async function deleteDelivery(req: Request, res: Response) {
   try {
     const { id } = req.params;
     const delivery = await Delivery.findByIdAndDelete(id);
-    if (!delivery) return res.json("no delivery found.");
+    if (!delivery) return res.status(400).send("no delivery found.");
 
-    return res.json("Delivery deleted");
+    return res.status(200).send("Delivery deleted");
   } catch (err) {
-    return res.json({ error: err });
+    return res.status(500).send({ error: err });
   }
 }

@@ -39,10 +39,10 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
       if (err) res.send({ msg: "invalid Token From AUTH" }).status(401);
       req.user = decode;
-      next();
+      return next();
     });
   } else {
-    res.send({ msg: "No token found" }).status(401);
+    return res.send({ msg: "No token found" }).status(401);
   }
 };
 

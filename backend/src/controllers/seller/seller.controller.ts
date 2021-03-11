@@ -5,19 +5,19 @@ import { Response, Request } from "express";
 export const getSellers = async (req: Request, res: Response) => {
   try {
     const sellers = await Seller.find();
-    if (!sellers) return res.json({ msg: "No sellers found" }).status(400);
-    return res.json(sellers);
+    if (!sellers) return res.status(400).send({ msg: "No sellers found" });
+    return res.status(201).send(sellers);
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 };
 
 export const getTopSellers = async (req: Request, res: Response) => {
   try {
     const topSellers = await Seller.find({}).sort({ rating: -1 }).limit(3);
-    return res.json(topSellers);
+    return res.status(200).send(topSellers);
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 };
 
@@ -26,11 +26,11 @@ export const getSellerProfile = async (req: Request, res: Response) => {
     const { id } = req.params;
     const profile = await Seller.findById(id);
 
-    if (!profile) return res.json({ msg: "Profile not found" });
+    if (!profile) return res.status(400).send({ msg: "Profile not found" });
 
-    return res.json(profile);
+    return res.status(200).send(profile);
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 };
 
@@ -38,10 +38,10 @@ export const getSellerInfo = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const seller = await Seller.findById(id);
-    if (!seller) return res.json({ msg: "no seller found." });
-    return res.json(seller);
+    if (!seller) return res.status(400).send({ msg: "no seller found." });
+    return res.status(200).send(seller);
   } catch (err) {
-    return res.json({ msg: err }).status(500);
+    return res.status(500).send({ msg: err });
   }
 };
 
@@ -50,9 +50,9 @@ export const updateProfile = async (req, res) => {
     const { id } = req.params;
     req.body.logo = req.file.cloudStoragePublicUrl || "";
     await Seller.findByIdAndUpdate(id, { $set: req.body }, { new: true });
-    return res.json({ status: "Profile edited" });
+    return res.status(200).send({ status: "Profile edited" });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 };
 
@@ -72,9 +72,9 @@ export const createSeller = async (req, res) => {
 
     await seller.save();
 
-    return res.json({ status: "Seller account created" });
+    return res.status(200).send({ status: "Seller account created" });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 };
 
@@ -82,8 +82,8 @@ export const disableSeller = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await Seller.findByIdAndUpdate(id, { isApproved: false });
-    return res.json({ status: "Seller disabled" });
+    return res.status(200).send({ status: "Seller disabled" });
   } catch (err) {
-    return res.json({ msg: err }).status(500);
+    return res.status(500).send({ msg: err });
   }
 };

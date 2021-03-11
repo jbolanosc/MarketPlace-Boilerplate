@@ -16,7 +16,7 @@ export default (db: string) => {
 
   connect();
 
-  //seedDB();
+  seedDB();
 
   mongoose.connection.on("disconnected", connect);
 };

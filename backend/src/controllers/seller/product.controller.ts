@@ -12,11 +12,11 @@ export async function getProduct(
       "_id seller.name seller.rating seller.logo "
     );
 
-    if (!product) return res.json({ msg: "No product found" }).status(400);
+    if (!product) return res.status(400).send({ msg: "No product found" });
 
-    return res.json(product);
+    return res.send(product);
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 }
 
@@ -44,9 +44,9 @@ export async function getProducts(
     })
       .populate("seller", "seller.name seller.logo")
       .sort(sortOrder);
-    return res.send(products);
+    return res.status(200).send(products);
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 }
 
@@ -76,9 +76,9 @@ export async function createProduct(req, res): Promise<Response | void> {
 
     await product.save();
 
-    return res.json({ msg: "product created." });
+    return res.status(200).send({ msg: "product created." });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 }
 
@@ -89,7 +89,7 @@ export async function addProductReview(
   try {
     const product = await Product.findById(req.params.id);
 
-    if (!product) return res.json({ msg: "No product Found" }).status(400);
+    if (!product) return res.status(400).send({ msg: "No product Found" });
 
     const review = {
       user: req.user._id,
@@ -111,7 +111,7 @@ export async function addProductReview(
       message: "Review saved successfully.",
     });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 }
 
@@ -124,7 +124,7 @@ export async function updateProduct(
 
     const product = await Product.findById(id);
 
-    if (!product) return res.json({ msg: "No product Found" }).status(401);
+    if (!product) return res.status(401).send({ msg: "No product Found" });
 
     product.name = req.body.name;
     product.category = req.body.category;
@@ -139,9 +139,9 @@ export async function updateProduct(
 
     await product.save();
 
-    return res.send({ msg: "Product updated" }).status(200);
+    return res.status(200).send({ msg: "Product updated" });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 }
 
@@ -153,8 +153,8 @@ export async function deleteProduct(
     const { id } = req.params;
     await Product.findByIdAndRemove(id);
 
-    return res.json({ msg: "Product deleted" });
+    return res.status(201).send({ msg: "Product deleted" });
   } catch (err) {
-    return res.json({ error: err }).status(500);
+    return res.status(500).send({ error: err });
   }
 }
